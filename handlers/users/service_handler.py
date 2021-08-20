@@ -20,7 +20,7 @@ async def enter_service(message: Message):
 
 @dp.callback_query_handler(text_contains="serv:Добавить гостя", state=c_s.choice)
 async def add_geust(call: CallbackQuery, state: FSMContext):
-    await call.message.answer("Введите ФИО гостя", reply_markup=bac_service_menu)
+    await call.message.answer("Введите информацию о госте(ФИО, марку/номер машины)", reply_markup=bac_service_menu)
     await add_guest.get_name.set()
 
 @dp.message_handler(text = "Выйти в меню жителя ЖК", state=add_guest.get_name)
@@ -35,30 +35,29 @@ async def back_guest_phone(message: Message, state = FSMContext):
 
 @dp.message_handler(state=add_guest.get_name)
 async def get_name(message: Message, state: FSMContext):
-    pattern = r'[а-яА-ЯёЁ]+'
-    if re.match(pattern, message.text):
+    str_message = message.text
+    if len(str_message)>40:
+        await message.answer("Невеный формат\nИнфорация о госте должна содержать не более 40 символов, повторите снова")
+        await message.answer("Введите информацию о госте(ФИО, марку/номер машины)", reply_markup=bac_service_menu)
+        await add_guest.get_name.set()
+    else:
+    #pattern = r'[а-яА-ЯёЁ]+'
+    #if re.match(pattern, message.text):
         guest_name = message.text
         await state.update_data(guest_name=guest_name)
-        await message.answer("Введите номер телефона гостя ")
-        await add_guest.get_phone.set()
-    else:
-        await message.answer("Невеный формат\nПожалуйста, вводите ФИО без цифр и только русскими буквами")
-        await add_guest.get_name.set()
-
-@dp.message_handler(state=add_guest.get_phone)
-async def get_phone(message: Message, state: FSMContext):
-    r = message.text
-    pattern =r"\b\+?[7,8](\s*\d{3}\s*\d{3}\s*\d{2}\s*\d{2})\b"
-    mas = []
-    if re.match(pattern, r) and ((len(r) == 11 and (r[0] == '8') or (len(r) == 12 and r[0] == '+'))):
-        cur.execute("select full_name from tabTelegramUsers where name = %s" %message.from_user.id)
+    #    await message.answer("Введите номер телефона гостя ")
+        # r = message.text
+        # pattern =r"\b\+?[7,8](\s*\d{3}\s*\d{3}\s*\d{2}\s*\d{2})\b"
+        mas = []
+        # if re.match(pattern, r) and ((len(r) == 11 and (r[0] == '8') or (len(r) == 12 and r[0] == '+'))):
+        cur.execute("select full_name from tabTelegramUsers where name = %s" % message.from_user.id)
         customer = cur.fetchall()[0][0]
-        phone = r
-        phone = format_phone(r)
-        if len(phone) == 12:
-            for i in range(1, 11):
-                phone = phone.replace("+7", "8")
-        await state.update_data(phone=phone)
+        # phone = r
+        # phone = format_phone(r)
+        # if len(phone) == 12:
+        #    for i in range(1, 11):
+        #        phone = phone.replace("+7", "8")
+        # await state.update_data(phone=phone)
         data = await state.get_data()
         sql = "select count(name)+1 from tabTask "
         cur.execute(sql)
@@ -66,7 +65,7 @@ async def get_phone(message: Message, state: FSMContext):
         sql = "INSERT INTO tabTask (name, subject, project, creation, owner, status) VALUES (%s, %s, %s, %s, %s, 'Open')"
         count_task = "TASK-2021-" + str(answerDb[0][0])
         mas.append(count_task)
-        mas.append(data.get("guest_name") + " " + data.get("phone"))
+        mas.append(data.get("guest_name"))
         mas.append("Добавить гостя")
         mas.append(str(datetime.datetime.now()))
         mas.append(customer)
@@ -74,7 +73,41 @@ async def get_phone(message: Message, state: FSMContext):
         conn.commit()
         await message.answer("Гость успешно добавлен", reply_markup=menu_customer)
         await user_status.logined.set()
-    else:
-        await message.answer("Неверный формат номера телефона. Пожалуйста, введите номер правильно.")
-        await add_guest.get_phone.set()
+    #else:
+    #    await message.answer("Невеный формат\nПожалуйста, вводите ФИО без цифр и только русскими буквами")
+    #    await add_guest.get_name.set()
+
+@dp.message_handler(state=add_guest.get_phone)
+async def get_phone(message: Message, state: FSMContext):
+    print(1)
+    #r = message.text
+    #pattern =r"\b\+?[7,8](\s*\d{3}\s*\d{3}\s*\d{2}\s*\d{2})\b"
+    mas = []
+    #if re.match(pattern, r) and ((len(r) == 11 and (r[0] == '8') or (len(r) == 12 and r[0] == '+'))):
+    cur.execute("select full_name from tabTelegramUsers where name = %s" %message.from_user.id)
+    customer = cur.fetchall()[0][0]
+        #phone = r
+        #phone = format_phone(r)
+        #if len(phone) == 12:
+        #    for i in range(1, 11):
+        #        phone = phone.replace("+7", "8")
+        #await state.update_data(phone=phone)
+    data = await state.get_data()
+    sql = "select count(name)+1 from tabTask "
+    cur.execute(sql)
+    answerDb = cur.fetchall()
+    sql = "INSERT INTO tabTask (name, subject, project, creation, owner, status) VALUES (%s, %s, %s, %s, %s, 'Open')"
+    count_task = "TASK-2021-" + str(answerDb[0][0])
+    mas.append(count_task)
+    mas.append(data.get("guest_name") + " " + data.get("phone"))
+    mas.append("Добавить гостя")
+    mas.append(str(datetime.datetime.now()))
+    mas.append(customer)
+    cur.execute(sql, mas)
+    conn.commit()
+    await message.answer("Гость успешно добавлен", reply_markup=menu_customer)
+    await user_status.logined.set()
+    #else:
+    #    await message.answer("Неверный формат номера телефона. Пожалуйста, введите номер правильно.")
+    #    await add_guest.get_phone.set()
 

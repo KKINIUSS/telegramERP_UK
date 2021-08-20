@@ -13,7 +13,7 @@ from utils.format import format_phone
 
 mes = ''
 
-@dp.message_handler(text="Зарегистрироваться", state=None)
+@dp.message_handler(text="Зарегистрироваться12345678", state=None)
 async def enter_reg(message: Message):
     conn.commit()
     mes = message.from_user.id

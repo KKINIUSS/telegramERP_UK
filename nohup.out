@@ -1,0 +1,158 @@
+executor.py [LINE:351] #INFO     [2021-08-16 12:56:39,190]  Bot: Охрана [@jk_project_bot]
+notify_admins.py [LINE:14] #ERROR    [2021-08-16 12:56:39,360]  Forbidden: bot was blocked by the user
+Traceback (most recent call last):
+  File "/home/user/Рабочий стол/telegramot/utils/notify_admins.py", line 11, in on_startup_notify
+    await dp.bot.send_message(admin, "Бот Запущен")
+  File "/home/user/.local/lib/python3.8/site-packages/aiogram/bot/bot.py", line 314, in send_message
+    result = await self.request(api.Methods.SEND_MESSAGE, payload)
+  File "/home/user/.local/lib/python3.8/site-packages/aiogram/bot/base.py", line 208, in request
+    return await api.make_request(self.session, self.server, self.__token, method, data, files,
+  File "/home/user/.local/lib/python3.8/site-packages/aiogram/bot/api.py", line 140, in make_request
+    return check_result(method, response.content_type, response.status, await response.text())
+  File "/home/user/.local/lib/python3.8/site-packages/aiogram/bot/api.py", line 121, in check_result
+    exceptions.Unauthorized.detect(description)
+  File "/home/user/.local/lib/python3.8/site-packages/aiogram/utils/exceptions.py", line 140, in detect
+    raise err(cls.text or description)
+aiogram.utils.exceptions.BotBlocked: Forbidden: bot was blocked by the user
+dispatcher.py [LINE:357] #INFO     [2021-08-16 12:56:39,955]  Start polling.
+dispatcher.py [LINE:384] #ERROR    [2021-08-17 08:34:38,671]  Cause exception while getting updates.
+Traceback (most recent call last):
+  File "/home/user/.local/lib/python3.8/site-packages/aiogram/dispatcher/dispatcher.py", line 380, in start_polling
+    updates = await self.bot.get_updates(limit=limit, offset=offset, timeout=timeout)
+  File "/home/user/.local/lib/python3.8/site-packages/aiogram/bot/bot.py", line 97, in get_updates
+    result = await self.request(api.Methods.GET_UPDATES, payload)
+  File "/home/user/.local/lib/python3.8/site-packages/aiogram/bot/base.py", line 208, in request
+    return await api.make_request(self.session, self.server, self.__token, method, data, files,
+  File "/home/user/.local/lib/python3.8/site-packages/aiogram/bot/api.py", line 139, in make_request
+    async with session.post(url, data=req, **kwargs) as response:
+  File "/home/user/.local/lib/python3.8/site-packages/aiohttp/client.py", line 1117, in __aenter__
+    self._resp = await self._coro
+  File "/home/user/.local/lib/python3.8/site-packages/aiohttp/client.py", line 544, in _request
+    await resp.start(conn)
+  File "/home/user/.local/lib/python3.8/site-packages/aiohttp/client_reqrep.py", line 905, in start
+    self._continue = None
+  File "/home/user/.local/lib/python3.8/site-packages/aiohttp/helpers.py", line 656, in __exit__
+    raise asyncio.TimeoutError from None
+asyncio.exceptions.TimeoutError
+Traceback (most recent call last):
+  File "feedback.py", line 27, in <module>
+    asyncio.run(send_feedback())
+  File "/usr/lib/python3.8/asyncio/runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "/usr/lib/python3.8/asyncio/base_events.py", line 603, in run_until_complete
+    self.run_forever()
+  File "/usr/lib/python3.8/asyncio/base_events.py", line 570, in run_forever
+    self._run_once()
+  File "/usr/lib/python3.8/asyncio/base_events.py", line 1859, in _run_once
+    handle._run()
+  File "/usr/lib/python3.8/asyncio/events.py", line 81, in _run
+    self._context.run(self._callback, *self._args)
+  File "feedback.py", line 10, in send_feedback
+    cur.execute("select name, answer, modified_by from tabTelegramUsers where answer!=' ' and enable=0")
+KeyboardInterrupt
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap_external>", line 148, in _path_is_mode_type
+  File "<frozen importlib._bootstrap_external>", line 142, in _path_stat
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/.local/lib/python3.8/site-packages/et_xmlfile/__init__.cpython-38-x86_64-linux-gnu.so'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "archive.py", line 3, in <module>
+    import openpyxl
+  File "/home/user/.local/lib/python3.8/site-packages/openpyxl/__init__.py", line 6, in <module>
+    from openpyxl.workbook import Workbook
+  File "/home/user/.local/lib/python3.8/site-packages/openpyxl/workbook/__init__.py", line 4, in <module>
+    from .workbook import Workbook
+  File "/home/user/.local/lib/python3.8/site-packages/openpyxl/workbook/workbook.py", line 7, in <module>
+    from openpyxl.worksheet.worksheet import Worksheet
+  File "/home/user/.local/lib/python3.8/site-packages/openpyxl/worksheet/worksheet.py", line 25, in <module>
+    from openpyxl.cell import Cell, MergedCell
+  File "/home/user/.local/lib/python3.8/site-packages/openpyxl/cell/__init__.py", line 3, in <module>
+    from .cell import Cell, WriteOnlyCell, MergedCell
+  File "/home/user/.local/lib/python3.8/site-packages/openpyxl/cell/cell.py", line 27, in <module>
+    from openpyxl.styles import numbers, is_date_format
+  File "/home/user/.local/lib/python3.8/site-packages/openpyxl/styles/__init__.py", line 4, in <module>
+    from .alignment import Alignment
+  File "/home/user/.local/lib/python3.8/site-packages/openpyxl/styles/alignment.py", line 5, in <module>
+    from openpyxl.descriptors import Bool, MinMax, Min, Alias, NoneSet
+  File "/home/user/.local/lib/python3.8/site-packages/openpyxl/descriptors/__init__.py", line 4, in <module>
+    from .sequence import Sequence
+  File "/home/user/.local/lib/python3.8/site-packages/openpyxl/descriptors/sequence.py", line 4, in <module>
+    from openpyxl.xml.functions import Element
+  File "/home/user/.local/lib/python3.8/site-packages/openpyxl/xml/functions.py", line 36, in <module>
+    from et_xmlfile import xmlfile
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 971, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 914, in _find_spec
+  File "<frozen importlib._bootstrap_external>", line 1407, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 1379, in _get_spec
+  File "<frozen importlib._bootstrap_external>", line 1525, in find_spec
+  File "<frozen importlib._bootstrap_external>", line 156, in _path_isfile
+  File "<frozen importlib._bootstrap_external>", line 148, in _path_is_mode_type
+KeyboardInterrupt
+executor.py [LINE:351] #INFO     [2021-08-20 12:33:32,930]  Bot: Охрана [@jk_project_bot]
+notify_admins.py [LINE:14] #ERROR    [2021-08-20 12:33:33,294]  Forbidden: bot was blocked by the user
+Traceback (most recent call last):
+  File "/home/user/Рабочий стол/telegramot/utils/notify_admins.py", line 11, in on_startup_notify
+    await dp.bot.send_message(admin, "Бот Запущен")
+  File "/home/user/.local/lib/python3.8/site-packages/aiogram/bot/bot.py", line 314, in send_message
+    result = await self.request(api.Methods.SEND_MESSAGE, payload)
+  File "/home/user/.local/lib/python3.8/site-packages/aiogram/bot/base.py", line 208, in request
+    return await api.make_request(self.session, self.server, self.__token, method, data, files,
+  File "/home/user/.local/lib/python3.8/site-packages/aiogram/bot/api.py", line 140, in make_request
+    return check_result(method, response.content_type, response.status, await response.text())
+  File "/home/user/.local/lib/python3.8/site-packages/aiogram/bot/api.py", line 121, in check_result
+    exceptions.Unauthorized.detect(description)
+  File "/home/user/.local/lib/python3.8/site-packages/aiogram/utils/exceptions.py", line 140, in detect
+    raise err(cls.text or description)
+aiogram.utils.exceptions.BotBlocked: Forbidden: bot was blocked by the user
+dispatcher.py [LINE:357] #INFO     [2021-08-20 12:33:34,525]  Start polling.
+executor.py [LINE:351] #INFO     [2021-08-20 12:38:42,099]  Bot: Охрана [@jk_project_bot]
+notify_admins.py [LINE:14] #ERROR    [2021-08-20 12:38:42,279]  Forbidden: bot was blocked by the user
+Traceback (most recent call last):
+  File "/home/user/Рабочий стол/telegramot/utils/notify_admins.py", line 11, in on_startup_notify
+    await dp.bot.send_message(admin, "Бот Запущен")
+  File "/home/user/.local/lib/python3.8/site-packages/aiogram/bot/bot.py", line 314, in send_message
+    result = await self.request(api.Methods.SEND_MESSAGE, payload)
+  File "/home/user/.local/lib/python3.8/site-packages/aiogram/bot/base.py", line 208, in request
+    return await api.make_request(self.session, self.server, self.__token, method, data, files,
+  File "/home/user/.local/lib/python3.8/site-packages/aiogram/bot/api.py", line 140, in make_request
+    return check_result(method, response.content_type, response.status, await response.text())
+  File "/home/user/.local/lib/python3.8/site-packages/aiogram/bot/api.py", line 121, in check_result
+    exceptions.Unauthorized.detect(description)
+  File "/home/user/.local/lib/python3.8/site-packages/aiogram/utils/exceptions.py", line 140, in detect
+    raise err(cls.text or description)
+aiogram.utils.exceptions.BotBlocked: Forbidden: bot was blocked by the user
+dispatcher.py [LINE:357] #INFO     [2021-08-20 12:38:42,934]  Start polling.
+Traceback (most recent call last):
+  File "/home/user/Рабочий стол/telegramot/feedback.py", line 28, in <module>
+    asyncio.run(send_feedback())
+  File "/usr/lib/python3.8/asyncio/runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "/usr/lib/python3.8/asyncio/base_events.py", line 616, in run_until_complete
+    return future.result()
+  File "/home/user/Рабочий стол/telegramot/feedback.py", line 25, in send_feedback
+    cur.execute("update tabTelegramUsers set answer=' ' where name=%d" %teleid)
+mariadb.OperationalError: Truncated incorrect DOUBLE value: '974a6d9100'
+executor.py [LINE:351] #INFO     [2021-08-20 12:46:46,880]  Bot: Охрана [@jk_project_bot]
+notify_admins.py [LINE:14] #ERROR    [2021-08-20 12:46:47,045]  Forbidden: bot was blocked by the user
+Traceback (most recent call last):
+  File "/home/user/Рабочий стол/telegramot/utils/notify_admins.py", line 11, in on_startup_notify
+    await dp.bot.send_message(admin, "Бот Запущен")
+  File "/home/user/.local/lib/python3.8/site-packages/aiogram/bot/bot.py", line 314, in send_message
+    result = await self.request(api.Methods.SEND_MESSAGE, payload)
+  File "/home/user/.local/lib/python3.8/site-packages/aiogram/bot/base.py", line 208, in request
+    return await api.make_request(self.session, self.server, self.__token, method, data, files,
+  File "/home/user/.local/lib/python3.8/site-packages/aiogram/bot/api.py", line 140, in make_request
+    return check_result(method, response.content_type, response.status, await response.text())
+  File "/home/user/.local/lib/python3.8/site-packages/aiogram/bot/api.py", line 121, in check_result
+    exceptions.Unauthorized.detect(description)
+  File "/home/user/.local/lib/python3.8/site-packages/aiogram/utils/exceptions.py", line 140, in detect
+    raise err(cls.text or description)
+aiogram.utils.exceptions.BotBlocked: Forbidden: bot was blocked by the user
+dispatcher.py [LINE:357] #INFO     [2021-08-20 12:46:47,688]  Start polling.
+  File "/home/user/Рабочий стол/telegramot/feedback.py", line 12
+    await bot.send_message(int(throw[0]), "Сообщение от: " + throw[2] + "\n" + throw[1])
+    ^
+SyntaxError: 'await' outside function

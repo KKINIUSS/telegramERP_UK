@@ -50,23 +50,8 @@ async def find_guest(message: Message, state=employer.find):
 
 @dp.message_handler(text="Отправить сообщение охране", state=employer.work)
 async def call_security(message:Message, sate=FSMContext):
+    await message.answer("Введите сообщение для охраны", reply_markup=back_menu)
     await send_message.security.set()
-    conn.commit()
-    cur.execute("select telegramid from tabEmployee where employment_type='Охрана'")
-    data = cur.fetchall()
-    cur.execute("select middle_name, first_name, last_name, employment_type, location from tabEmployee where "
-                "telegramid=%d" % message.from_user.id)
-    mas = cur.fetchall()
-    from_employee = "Сообщение от: " + mas[0][0] + " " + mas[0][1] + " " + mas[0][2] + "\nДолжность: " + mas[0][3] + \
-                    "\nМестоположение: " + mas[0][4]
-
-    if data != [(None,)]:
-        for i in data:
-            await bot.send_message(i[0], from_employee)
-        await message.answer("Введите сообщение для охраны", reply_markup=back_menu)
-    else:
-        await message.answer("Нет охранников", reply_markup=menu_concierge)
-        await employer.work.set()
 
 
 @dp.message_handler(text="Вернуться в меню сотрудника", state= send_message.security)
@@ -76,16 +61,22 @@ async def back_emp_menu(message: Message, state=FSMContext):
 
 
 @dp.message_handler(state=send_message.security)
-async def send_message_security(message: Message, state = FSMContext):
+async def send_message_security(message: Message, state=FSMContext):
     text = message.text
-    cur.execute("select middle_name, first_name, last_name from tabEmployee where "
+    conn.commit()
+    cur.execute("select telegramid from tabEmployee where telegramid!=%d" %message.from_user.id )
+    data = cur.fetchall()
+    print(data)
+    cur.execute("select middle_name, first_name, last_name, employment_type, location from tabEmployee where "
                 "telegramid=%d" % message.from_user.id)
     mas = cur.fetchall()
-    cur.execute("select telegramid from tabEmployee where employment_type='Охрана'")
-    data = cur.fetchall()
-    for i in data:
-        await bot.send_message(i[0], "<b>" + text + "</b>" + "\nот " + mas[0][0] + " " + mas[0][1][0]
-                               + "." + mas[0][2][0] + ".")
-    await message.answer(text="Сообщение отправленно", reply_markup=menu_concierge )
-    await employer.work.set()
-
+    from_employee = "Сообщение от: " + mas[0][0] + " " + mas[0][1] + " " + mas[0][2] + "\nДолжность: " + mas[0][3] + \
+                    "\nМестоположение: " + mas[0][4] + "\nТекст сообщения: %s" %text
+    if (data):
+        for i in data:
+            await bot.send_message(i[0], from_employee)
+        await message.answer(text="Сообщение отправлено", reply_markup=menu_concierge)
+        await employer.work.set()
+    else:
+        await message.answer("Нет охранников", reply_markup=menu_concierge)
+        await employer.work.set()

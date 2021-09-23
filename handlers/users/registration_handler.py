@@ -6,11 +6,11 @@ from aiogram.dispatcher import FSMContext
 from keyboards.default import cancel
 from keyboards.default import menu
 from data.config import location_site as loc
-from database.connect_db import conn, cur
 from datetime import datetime
 import re
 from utils.format import format_phone
-
+import mariadb
+from data.config import user, password, host, port, database
 mes = ''
 
 @dp.message_handler(text="Зарегистрироваться", state=reg.start)
@@ -82,6 +82,14 @@ async def reg_passport(message, state: FSMContext):
 
 @dp.callback_query_handler(text_contains="reg", state=reg.check)
 async def reg_check(call: CallbackQuery, state: FSMContext):
+    conn = mariadb.connect(
+        user=user,
+        password=password,
+        host=host,
+        port=port,
+        database=database
+    )
+    cur = conn.cursor()
     now = datetime.now()
     callback_data = call.data
     data = await state.get_data()
@@ -93,7 +101,9 @@ async def reg_check(call: CallbackQuery, state: FSMContext):
                     "(name ,creation ,owner ,status ,full_name , phone, location, passport_image, telegramid) "
                     "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)", mas)
         conn.commit()
+        conn.close()
         await state.finish()
     else:
         await call.message.answer("Начнём сначала! Введите ФИО.\n")
+        conn.close()
         await reg.fio.set()

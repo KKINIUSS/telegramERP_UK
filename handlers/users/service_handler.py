@@ -9,24 +9,35 @@ from states.service_state import choice_service as c_s, add_guest
 from aiogram.dispatcher import FSMContext
 from keyboards.default import cancel
 from states.login_at_user import user_status
-from database.connect_db import conn, cur
+import mariadb
+from data.config import user, password, host, port, database
 from keyboards.default.back_from_service import bac_service_menu
 
 @dp.message_handler(text="Добавить гостя", state=user_status.logined)
 async def add_geust(message: Message, state: FSMContext):
-    print("Est'")
     await message.answer("Введите информацию о госте(ФИО, марку/номер машины)", reply_markup=bac_service_menu)
     await add_guest.get_name.set()
 
 @dp.message_handler(state=add_guest.get_name)
 async def get_name(message: Message, state: FSMContext):
+    conn = mariadb.connect(
+        user=user,
+        password=password,
+        host=host,
+        port=port,
+        database=database
+    )
+    cur = conn.cursor()
+    conn.commit()
     str_message = message.text
     if(str_message == 'Назад'):
         await message.answer("Нажмите 'Добавить гостя', чтобы выпустить пропуск.", reply_markup=menu_customer)
+        conn.close()
         await user_status.logined.set()
     elif(len(str_message)>40):
         await message.answer("Невеный формат\nИнфорация о госте должна содержать не более 40 символов, повторите снова")
         await message.answer("Введите информацию о госте(ФИО, марку/номер машины)", reply_markup=bac_service_menu)
+        conn.close()
         await add_guest.get_name.set()
     else:
         guest_name = message.text
@@ -47,5 +58,6 @@ async def get_name(message: Message, state: FSMContext):
         cur.execute(sql, mas)
         conn.commit()
         await message.answer("Гость успешно добавлен", reply_markup=menu_customer)
+        conn.close()
         await user_status.logined.set()
 

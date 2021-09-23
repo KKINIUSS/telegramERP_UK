@@ -2,7 +2,6 @@ import re
 import datetime
 from aiogram.types import Message, CallbackQuery
 from keyboards.default.menu_customer import menu_customer
-from keyboards.inline.service_buttons import service_buttons
 from loader import dp
 from utils.format import format_phone
 from states.service_state import choice_service as c_s, add_guest

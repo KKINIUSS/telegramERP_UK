@@ -16,7 +16,6 @@ mes = ''
 @dp.message_handler(text="Зарегистрироваться", state=reg.start)
 async def enter_reg(message: Message):
     await message.answer(f"Вы выбрали {message.text}", reply_markup=ReplyKeyboardRemove())
-    await message.answer("При желании вы всегда можете выйти в главное меню, нажав кнопку отмена", reply_markup=cancel)
     await message.answer("Введите ФИО")
     await reg.fio.set()
 

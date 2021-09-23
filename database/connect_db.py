@@ -11,6 +11,5 @@ conn = mariadb.connect(
 cur = conn.cursor()
 cur1 = conn.cursor()
 
-
 def set_wait_time(cur):
     cur.execute("SET session wait_timeout=9999999")

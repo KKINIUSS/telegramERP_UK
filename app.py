@@ -11,8 +11,6 @@ async def on_startup(dispatcher):
     # Уведомляет про запуск
     await on_startup_notify(dispatcher)
     await on_startup_notify_users(dispatcher)
-    Popen(["python3", loc + '/feedback.py'])
-    Popen(["python3", loc + '/archive.py'])
     set_wait_time(cur)
 
 

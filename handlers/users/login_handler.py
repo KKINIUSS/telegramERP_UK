@@ -18,7 +18,6 @@ async def log_in_begin(message: Message ):
     await message.answer("Введите свой телефон", reply_markup=cancel)
     await log_in.auth.set()
 
-
 @dp.message_handler(state=log_in.auth)
 async def login(message: Message, state=FSMContext):
     conn.commit()
@@ -35,8 +34,11 @@ async def login(message: Message, state=FSMContext):
         sql_employeer = "SELECT name FROM tabEmployee WHERE name = %s" % phone
         sql = "SELECT phone FROM tabTelegramUsers WHERE enable=1 and phone =%s" % phone
         cur.execute(sql)
-        if (cur.fetchall()):
+        phoner = cur.fetchall()
+        if (phoner):
             await message.answer("Вы вошли в личный кабинет", reply_markup=menu_customer)
+            cur.execute("update tabTelegramUsers set telegramid=? where phone=?",[message.from_user.id, phoner[0][0]])
+            conn.commit()
             await user_status.logined.set()
         else:
             cur.execute(sql_employeer)

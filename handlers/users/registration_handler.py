@@ -13,7 +13,7 @@ from utils.format import format_phone
 
 mes = ''
 
-@dp.message_handler(text="Зарегистрироваться12345678", state=None)
+@dp.message_handler(text="Зарегистрироваться", state=reg.start)
 async def enter_reg(message: Message):
     conn.commit()
     mes = message.from_user.id
@@ -84,21 +84,14 @@ async def reg_passport(message, state: FSMContext):
 async def reg_check(call: CallbackQuery, state: FSMContext):
     now = datetime.now()
     callback_data = call.data
-    mas = []
     data = await state.get_data()
     if callback_data == "reg:True":
-        await call.message.answer("Ваша заявка отправленна на рассмотрение оператором", reply_markup=menu)
-        mas.append(data.get("telegram_id"))
-        mas.append(now)
-        mas.append("Administrator")
-        mas.append("0")
-        mas.append(data.get("fio"))
-        mas.append(data.get("phone"))
-        mas.append(data.get("address"))
-        mas.append(data.get("path_pas"))
+        await call.message.answer("Ваша заявка отправлена на рассмотрение оператором", reply_markup=menu)
+        mas = [data.get("telegram_id"), now, "Administrator", "На рассмотрении", data.get("fio"), data.get("phone"),
+               data.get("address"), data.get("path_pas"), call.from_user.id]
         cur.execute("INSERT INTO tabTelegramUsers "
-                    "(name ,creation ,owner ,enable ,full_name , phone, location, passport_image) "
-                    "VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", mas)
+                    "(name ,creation ,owner ,status ,full_name , phone, location, passport_image, telegramid) "
+                    "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)", mas)
         conn.commit()
         await state.finish()
     else:

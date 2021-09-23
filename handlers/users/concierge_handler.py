@@ -59,7 +59,7 @@ async def find_guest(message: Message, state=FSMContext):
     if str != []:
         for i in range(len(str)):
             a.append("• " + str[i][0])
-        mes = f"Список гостей по запросу: {message.text}" + "\n".join(a)
+        mes = f"Список гостей по запросу '{message.text}'\n" + "\n".join(a)
         await message.answer(mes)
     else:
         await message.answer("Гость не найден")

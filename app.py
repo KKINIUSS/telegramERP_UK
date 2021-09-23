@@ -1,7 +1,6 @@
 from subprocess import Popen
 from aiogram import executor
 from loader import dp
-from database.connect_db import set_wait_time, cur
 from data.config import location_bot as loc
 import middlewares, filters, handlers, database
 from utils.notify_admins import on_startup_notify
@@ -11,7 +10,7 @@ async def on_startup(dispatcher):
     # Уведомляет про запуск
     await on_startup_notify(dispatcher)
    # await on_startup_notify_users(dispatcher)
-    set_wait_time(cur)
+   # set_wait_time(cur)
 
 
 if __name__ == '__main__':

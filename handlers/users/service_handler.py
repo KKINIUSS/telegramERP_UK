@@ -43,7 +43,7 @@ async def get_name(message: Message, state: FSMContext):
         today = datetime.datetime.now()
         delta = datetime.timedelta(days=1)
         zavtra = today + delta
-        mas = [count_task, data.get("guest_name"), "Добавить гостя", str(datetime.datetime.now()), customer, today, zavtra]
+        mas = [count_task, data.get("guest_name"), "Добавить гостя", datetime.datetime.now(), customer, today, zavtra]
         cur.execute(sql, mas)
         conn.commit()
         await message.answer("Гость успешно добавлен", reply_markup=menu_customer)

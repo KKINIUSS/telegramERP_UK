@@ -50,7 +50,7 @@ async def notify():
                                 await bot.send_message(name, text=f"Ваша учетная запись подтверждена!", reply_markup=bnt_inl)
             else:
                 print(f"Завожу чувака с данными - Name: {name}, Status: {status}")
-                curSql3.execute("insert into tabTelegramUsers (name, status) values (?, ?, ?)", [name, status])
+                curSql3.execute("insert into tabTelegramUsers (name, status) values (?, ?)", [name, status])
                 connSql3.commit()
         conn.close()
         await asyncio.sleep(10)

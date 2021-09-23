@@ -47,7 +47,7 @@ async def notify():
                             elif(status == 'Подтвержден'):
                                 curSql3.execute("update tabTelegramUsers set status=? where name=?", [status, name])
                                 connSql3.commit()
-                                await bot.send_message(name, text=f"Ваша учетная запись подтверждена!", reply_markup=bnt_inl)
+                                await bot.send_message(name, text=f"Ваша учетная запись подтверждена, введите /start, чтобы начать пользоваться ботом!", reply_markup=bnt_inl)
             else:
                 print(f"Завожу чувака с данными - Name: {name}, Status: {status}")
                 curSql3.execute("insert into tabTelegramUsers (name, status) values (?, ?)", [name, status])

@@ -15,16 +15,10 @@ mes = ''
 
 @dp.message_handler(text="Зарегистрироваться", state=reg.start)
 async def enter_reg(message: Message):
-    conn.commit()
-    mes = message.from_user.id
-    cur.execute("select name from tabTelegramUsers where name=%d" %mes)
-    if (cur.fetchall()):
-        await message.answer("Вы уже зарегистрированны, либо ваш аккаунт еще не подтвердили.", reply_markup=menu)
-    else:
-        await message.answer(f"Вы выбрали {message.text}", reply_markup=ReplyKeyboardRemove())
-        await message.answer("При желании вы всегда можете выйти в главное меню, нажав кнопку отмена", reply_markup=cancel)
-        await message.answer("Введите ФИО")
-        await reg.fio.set()
+    await message.answer(f"Вы выбрали {message.text}", reply_markup=ReplyKeyboardRemove())
+    await message.answer("При желании вы всегда можете выйти в главное меню, нажав кнопку отмена", reply_markup=cancel)
+    await message.answer("Введите ФИО")
+    await reg.fio.set()
 
 
 @dp.message_handler(state=reg.fio)

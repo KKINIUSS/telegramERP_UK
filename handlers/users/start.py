@@ -1,6 +1,6 @@
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.builtin import CommandStart
-from aiogram.types import Message
+from aiogram.types import Message, CallbackQuery
 from keyboards.default import menu
 from loader import dp
 import mariadb
@@ -51,3 +51,9 @@ async def show_menu(message: Message):
 async def back_from_reg(message: Message, state=FSMContext):
     await message.answer("Вы вернулись в главное меню", reply_markup=menu)
     await state.finish()
+
+
+@dp.callback_query_handler(text_contains="Понятно", state="*")
+async def ok(call: CallbackQuery, state=FSMContext):
+    if (call.data == 'Понятно'):
+        await call.message.delete()

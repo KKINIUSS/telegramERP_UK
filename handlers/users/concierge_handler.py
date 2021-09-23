@@ -78,14 +78,11 @@ async def call_security(message:Message, sate=FSMContext):
     cur = conn.cursor()
     await send_message.security.set()
     conn.commit()
-    cur.execute("select telegramid from tabEmployee where employment_type='Охрана'")
+    cur.execute("select name, fio, locations, role from tabTelegramUsers where role='Охранник' and name != %s"%(message.from_user.id))
     data = cur.fetchall()
-    cur.execute("select middle_name, first_name, last_name, employment_type, location from tabEmployee where "
-                "telegramid=%d" % message.from_user.id)
-    mas = cur.fetchall()
-    from_employee = "Сообщение от: " + mas[0][0] + " " + mas[0][1] + " " + mas[0][2] + "\nДолжность: " + mas[0][3] + \
-                    "\nМестоположение: " + mas[0][4]
-    if data != [(None,)]:
+    if data != []:
+        from_employee = "Сообщение от: " + data[0][1] + "\nДолжность: " + data[0][3] + \
+                        "\nМестоположение: " + data[0][2]
         for i in data:
             await bot.send_message(i[0], from_employee)
         await message.answer("Введите сообщение для охраны", reply_markup=back_menu)
@@ -114,14 +111,11 @@ async def send_message_security(message: Message, state = FSMContext):
     )
     cur = conn.cursor()
     text = message.text
-    cur.execute("select middle_name, first_name, last_name from tabEmployee where "
-                "telegramid=%d" % message.from_user.id)
-    mas = cur.fetchall()
-    cur.execute("select telegramid from tabEmployee where employment_type='Охрана'")
+    cur.execute("select name, fio, locations, role from tabTelegramUsers where role='Охранник' and name != %s" % (
+        message.from_user.id))
     data = cur.fetchall()
     for i in data:
-        await bot.send_message(i[0], "<b>" + text + "</b>" + "\nот " + mas[0][0] + " " + mas[0][1][0]
-                               + "." + mas[0][2][0] + ".")
+        await bot.send_message(i[0], "<b>" + text + "</b>")
     await message.answer(text="Сообщение отправлено", reply_markup=menu_concierge)
     conn.close()
     await employer.work.set()

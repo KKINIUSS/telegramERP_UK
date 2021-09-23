@@ -55,7 +55,6 @@ async def get_name(message: Message, state: FSMContext):
 
 @dp.message_handler(state=add_guest.get_phone)
 async def get_phone(message: Message, state: FSMContext):
-    print(1)
     #r = message.text
     #pattern =r"\b\+?[7,8](\s*\d{3}\s*\d{3}\s*\d{2}\s*\d{2})\b"
     mas = []

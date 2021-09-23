@@ -16,7 +16,7 @@ async def show_guests(message: Message, state=FSMContext):
     await message.answer("Таблица гостей: \n")
     params = [datetime.now() - timedelta(hours=24), datetime.now()]
     conn.commit()
-    sql = "select subject from tabTask where project='Добавить гостя' and creation between ? and ?"
+    sql = "select subject from tabTask where project='Добавить гостя' and status='Активен' and creation between ? and ?"
     cur.execute(sql, params)
     str = cur.fetchall()
     a = []

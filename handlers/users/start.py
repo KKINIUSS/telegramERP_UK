@@ -8,7 +8,7 @@ from keyboards.default.menu_customer import menu_customer
 from keyboards.default.menu_concierge import menu_concierge
 from states.login_at_user import user_status
 from states.employee_state import employer
-from states.registation import registration
+from states.registration import registration
 @dp.message_handler(CommandStart())
 async def show_menu(message: Message):
     conn.commit()

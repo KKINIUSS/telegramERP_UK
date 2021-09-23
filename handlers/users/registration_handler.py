@@ -1,4 +1,4 @@
-from aiogram.types import Message, ReplyKeyboardRemove, CallbackQuery
+from aiogram.types import Message, ReplyKeyboardRemove, CallbackQuery, ReplyKeyboardMarkup, KeyboardButton
 from keyboards.inline.reg_buttons import end_reg
 from loader import dp
 from states.registration import registration as reg
@@ -25,30 +25,25 @@ async def reg_fio(message: Message, state: FSMContext):
     pattern = r'[а-яА-ЯёЁ]+'
     if re.match(pattern, message.text):
         fio = message.text
-        await message.answer("Введите номер телефона")
+        markup = ReplyKeyboardMarkup(resize_keyboard=False).add(KeyboardButton('Нажмите по кнопке, чтобы отправить свой номер телефона',
+                           request_contact=True))
+        await message.answer("Нажмите на кнопку, чтобы отправить свой номер телефона", reply_markup=markup)
         await state.update_data(fio=fio)
+        await state.update_data(telegramid=message.from_user.id)
         await reg.phone.set()
     else:
         await message.answer("Невеный формат\nПожалуйста, вводите ФИО без цифр и только русскими буквами")
         await reg.fio.set()
 
 
-@dp.message_handler(state=reg.phone)
+@dp.message_handler(state=reg.phone, content_types=["contact"])
 async def reg_phone(message: Message, state: FSMContext):
     r = message.text
     pattern = r'(\+7|8).*?(\d{3}).*?(\d{3}).*?(\d{2}).*?(\d{2})'
-    if re.match(pattern, r) and ((len(r) == 11 and (r[0] == '8') or (len(r) == 12 and r[0] == '+'))):
-        phone = message.text
-        phone = format_phone(phone)
-        if len(phone) == 12:
-            phone = phone.replace("+7", "8")
-        await message.answer("Введите адрес")
-        await state.update_data(phone=phone)
-        await reg.address.set()
-    else:
-        await message.answer("Неверный формат номера телефона")
-        await message.answer("Пожалуйста, введите номер правильно")
-        await reg.phone.set()
+    phone = message.contact.phone_number
+    await message.answer("Введите адрес")
+    await state.update_data(phone=phone)
+    await reg.address.set()
 
 
 @dp.message_handler(state=reg.address)

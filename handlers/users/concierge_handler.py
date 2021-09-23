@@ -78,7 +78,7 @@ async def call_security(message:Message, sate=FSMContext):
     cur = conn.cursor()
     await send_message.security.set()
     conn.commit()
-    cur.execute("select name, fio, locations, role from tabTelegramUsers where role='Охранник' and name != %s"%(message.from_user.id))
+    cur.execute("select name, full_name, locations, role from tabTelegramUsers where role='Охранник' and name != %s"%(message.from_user.id))
     data = cur.fetchall()
     if data != []:
         from_employee = "Сообщение от: " + data[0][1] + "\nДолжность: " + data[0][3] + \
@@ -111,7 +111,7 @@ async def send_message_security(message: Message, state = FSMContext):
     )
     cur = conn.cursor()
     text = message.text
-    cur.execute("select name, fio, locations, role from tabTelegramUsers where role='Охранник' and name != %s" % (
+    cur.execute("select name, full_name, locations, role from tabTelegramUsers where role='Охранник' and name != %s" % (
         message.from_user.id))
     data = cur.fetchall()
     for i in data:

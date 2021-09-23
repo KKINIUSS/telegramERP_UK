@@ -48,12 +48,12 @@ async def get_name(message: Message, state: FSMContext):
         sql = "select count(name)+1 from tabTask"
         cur.execute(sql)
         answerDb = cur.fetchall()
-        sql = "INSERT INTO tabTask (name, subject, project, creation, owner, status, exp_start_date, exp_end_date, modified) VALUES (%s, %s, %s, %s, %s, 'Активен', %s, %s, %s)"
+        sql = "INSERT INTO tabTask (name, subject, creation, owner, status, exp_start_date, exp_end_date, modified) VALUES (%s, %s, %s, %s, 'Активен', %s, %s, %s)"
         count_task = "TASK-2021-" + str(answerDb[0][0])
         today = datetime.datetime.now()
         delta = datetime.timedelta(days=1)
         zavtra = today + delta
-        mas = [count_task, data.get("guest_name"), "Добавить гостя", today, customer, today, zavtra, today]
+        mas = [count_task, data.get("guest_name"), today, customer, today, zavtra, today]
         cur.execute(sql, mas)
         conn.commit()
         await message.answer("Гость успешно добавлен", reply_markup=menu_customer)

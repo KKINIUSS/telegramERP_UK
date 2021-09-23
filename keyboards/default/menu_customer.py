@@ -5,9 +5,6 @@ menu_customer = ReplyKeyboardMarkup(
         [
             KeyboardButton(text="Добавить гостя"),
         ],
-        [
-            KeyboardButton(text="Выйти"),
-        ]
     ],
     resize_keyboard=True
 )

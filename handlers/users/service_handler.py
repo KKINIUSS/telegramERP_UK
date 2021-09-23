@@ -24,7 +24,7 @@ async def get_name(message: Message, state: FSMContext):
     if(str_message == 'Назад'):
         await message.answer("Нажмите 'Добавить гостя', чтобы выпустить пропуск.", reply_markup=menu_customer)
         await user_status.logined.set()
-    if len(str_message)>40:
+    elif(len(str_message)>40):
         await message.answer("Невеный формат\nИнфорация о госте должна содержать не более 40 символов, повторите снова")
         await message.answer("Введите информацию о госте(ФИО, марку/номер машины)", reply_markup=bac_service_menu)
         await add_guest.get_name.set()
@@ -40,7 +40,6 @@ async def get_name(message: Message, state: FSMContext):
         answerDb = cur.fetchall()
         sql = "INSERT INTO tabTask (name, subject, project, creation, owner, status, exp_start_date, exp_end_date) VALUES (%s, %s, %s, %s, %s, 'Активен', %s, %s)"
         count_task = "TASK-2021-" + str(answerDb[0][0])
-        from datetime import timedelta
         today = datetime.datetime.now()
         delta = datetime.timedelta(days=1)
         zavtra = today + delta

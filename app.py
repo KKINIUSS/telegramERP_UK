@@ -41,7 +41,7 @@ async def notify():
                     if(nameBuf == name):
                         if(status != statusBuf):
                             if(status == 'Отклонен'):
-                                curSql3.execute("delete from Employer where name=?", [name])
+                                curSql3.execute("delete from tabTelegramUsers where name=?", [name])
                                 connSql3.commit()
                                 await bot.send_message(name,text=f"Данные учётной записи не корректны, свяжитесь с администратором системы.", reply_markup=ReplyKeyboardRemove())
                             elif(status == 'Подтвержден'):
@@ -49,8 +49,8 @@ async def notify():
                                 connSql3.commit()
                                 await bot.send_message(name, text=f"Ваша учетная запись подтверждена!", reply_markup=bnt_inl)
             else:
-                print(f"Завожу чувака с данными - Name: {name}, Status: {status}, TeleID: {tlForeman}")
-                curSql3.execute("insert into Employer (name, status, telegramidforeman) values (?, ?, ?)", [name, status, tlForeman])
+                print(f"Завожу чувака с данными - Name: {name}, Status: {status}")
+                curSql3.execute("insert into tabTelegramUsers (name, status) values (?, ?, ?)", [name, status])
                 connSql3.commit()
         conn.close()
         await asyncio.sleep(10)

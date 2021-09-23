@@ -18,6 +18,7 @@ async def show_menu(message: Message):
         if(k[0][1]=='Подтвержден'):
             if(k[0][2] == 'Житель'):
                 await message.answer("Вас приветствует бот-помощник ЖК, выберите 'Добавить гостя', чтобы сделать пропуск.", reply_markup=menu_customer)
+                print("Est'''''")
                 await user_status.logined.set()
             elif(k[0][2] == 'Охранник'):
                 await message.answer("Добрый день!", reply_markup=menu_concierge)

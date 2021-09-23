@@ -14,6 +14,7 @@ from keyboards.default.back_from_service import bac_service_menu
 
 @dp.callback_query_handler(text="Добавить гостя", state=user_status.logined)
 async def add_geust(message: Message, state: FSMContext):
+    print("Est'")
     await message.answer("Введите информацию о госте(ФИО, марку/номер машины)", reply_markup=bac_service_menu)
     await add_guest.get_name.set()
 

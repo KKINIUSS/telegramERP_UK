@@ -21,6 +21,9 @@ async def add_geust(message: Message, state: FSMContext):
 @dp.message_handler(state=add_guest.get_name)
 async def get_name(message: Message, state: FSMContext):
     str_message = message.text
+    if(str_message == 'Назад'):
+        await message.answer("Нажмите 'Добавить гостя', чтобы выпустить пропуск.", reply_markup=menu_customer)
+        await user_status.logined.set()
     if len(str_message)>40:
         await message.answer("Невеный формат\nИнфорация о госте должна содержать не более 40 символов, повторите снова")
         await message.answer("Введите информацию о госте(ФИО, марку/номер машины)", reply_markup=bac_service_menu)

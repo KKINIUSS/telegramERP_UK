@@ -13,8 +13,8 @@ from database.connect_db import conn, cur
 from keyboards.default.back_from_service import bac_service_menu
 
 @dp.callback_query_handler(text="Добавить гостя", state=user_status.logined)
-async def add_geust(call: CallbackQuery, state: FSMContext):
-    await call.message.answer("Введите информацию о госте(ФИО, марку/номер машины)", reply_markup=bac_service_menu)
+async def add_geust(message: Message, state: FSMContext):
+    await message.answer("Введите информацию о госте(ФИО, марку/номер машины)", reply_markup=bac_service_menu)
     await add_guest.get_name.set()
 
 @dp.message_handler(state=add_guest.get_name)

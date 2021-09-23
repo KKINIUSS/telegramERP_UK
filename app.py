@@ -10,7 +10,7 @@ from utils.notify_users import on_startup_notify_users
 async def on_startup(dispatcher):
     # Уведомляет про запуск
     await on_startup_notify(dispatcher)
-    await on_startup_notify_users(dispatcher)
+   # await on_startup_notify_users(dispatcher)
     set_wait_time(cur)
 
 

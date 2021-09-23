@@ -56,11 +56,12 @@ async def find_guest(message: Message, state=FSMContext):
     cur.execute("select subject from tabTask where status='Активен' and subject like '%s'" % params)
     str = cur.fetchall()
     a = []
+    mes = f"Список гостей по запросу: {message.text}"
     if str != []:
         for i in range(len(str)):
             a.append("• " + str[i][0])
-        str = "\n".join(a)
-        await message.answer(str)
+        mes += "\n".join(a)
+        await message.answer(mes)
     else:
         await message.answer("Гость не найден")
     conn.close()

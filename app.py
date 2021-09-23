@@ -22,7 +22,7 @@ async def notify():
     while True:
         connSql3 = sqlite3.connect("buffer.db")
         curSql3 = connSql3.cursor()
-        curSql3.execute("create table if not exists tabTelegramUsers (name text, status text,telegramidforeman text)")
+        curSql3.execute("create table if not exists tabTelegramUsers (name text, status text)")
         conn = mariadb.connect(
             user=user,
             password=password,

@@ -6,7 +6,7 @@ menu_concierge = ReplyKeyboardMarkup(
             KeyboardButton(text="Список гостей"), KeyboardButton(text="Отправить сообщение охране")
         ],
         [
-            KeyboardButton(text="Найти гостя"), KeyboardButton(text="Выйти"),
+            KeyboardButton(text="Найти гостя"),
         ]
     ],
     resize_keyboard=True

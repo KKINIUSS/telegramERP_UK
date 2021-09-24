@@ -112,7 +112,7 @@ async def send_message_security(message: Message, state = FSMContext):
         message.from_user.id))
     data = cur.fetchall()
     if data != []:
-        cur.execute("select full_name, role, location from tabTelegramUsers where name=%s", %(message.from_user.id))
+        cur.execute("select full_name, role, location from tabTelegramUsers where name=%s" %(message.from_user.id))
         mas = cur.fetchall()
         from_employee = "Сообщение от: " + mas[0][0] + "\nДолжность: " + data[0][1] + \
                         "\nМестоположение: " + data[0][2] + "\n\nСообщение: " + text

@@ -41,7 +41,7 @@ async def reg_phone(message: Message, state: FSMContext):
     r = message.text
     pattern = r'(\+7|8).*?(\d{3}).*?(\d{3}).*?(\d{2}).*?(\d{2})'
     phone = message.contact.phone_number
-    await message.answer("Введите адрес")
+    await message.answer("Введите адрес", reply_markup=ReplyKeyboardRemove())
     await state.update_data(phone=phone)
     await reg.address.set()
 

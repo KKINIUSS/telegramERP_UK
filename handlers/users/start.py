@@ -49,7 +49,28 @@ async def show_menu(message: Message):
         await registration.start.set()
 @dp.message_handler(text="отмена", state="*")
 async def back_from_reg(message: Message, state=FSMContext):
-    await message.answer("Вы вернулись в главное меню", reply_markup=menu)
+    start = ReplyKeyboardMarkup(
+        keyboard=[
+            [
+                KeyboardButton(text="/start"),
+            ],
+        ],
+        resize_keyboard=True
+    )
+    await message.answer("Вы вернулись в главное меню", reply_markup=start)
+    await state.finish()
+
+@dp.message_handler(text="/back", state="*")
+async def back_from_reg(message: Message, state=FSMContext):
+    start = ReplyKeyboardMarkup(
+        keyboard=[
+            [
+                KeyboardButton(text="/start"),
+            ],
+        ],
+        resize_keyboard=True
+    )
+    await message.answer("Вы вернулись в главное меню", reply_markup=start)
     await state.finish()
 
 

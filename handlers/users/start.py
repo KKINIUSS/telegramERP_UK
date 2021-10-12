@@ -1,7 +1,7 @@
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.builtin import CommandStart
 from aiogram.types import Message, CallbackQuery
-from keyboards.default import menu
+from keyboards.default.menu import menu
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 from loader import dp
 import mariadb

@@ -9,6 +9,8 @@ from aiogram.dispatcher import FSMContext
 from keyboards.default import cancel
 from states.login_at_user import user_status
 import mariadb
+from keyboards.default.menu import menu
+from states.registration import registration
 from data.config import user, password, host, port, database
 from keyboards.default.back_from_service import bac_service_menu
 
